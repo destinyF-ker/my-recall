@@ -4,6 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>RecAll.Contrib.TextItem.Api</AssemblyName>
+    <RootNamespace>RecAll.Contrib.TextItem.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
