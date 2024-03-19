@@ -1,0 +1,6 @@
+@Textitem.Api_HostAddress = http://localhost:5047
+
+GET {{Textitem.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
