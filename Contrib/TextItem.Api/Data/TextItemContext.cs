@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace RecAll.Contrib.TextItem.Api.Data;
 
-public class TextListContext : DbContext
+public class TextItemContext : DbContext
 {
     public DbSet<Models.TextItem> TextItems { get; set; }
 
-    public TextListContext(DbContextOptions<TextListContext> options) : base(options)
+    public TextItemContext(DbContextOptions<TextItemContext> options) : base(options)
     {
     }
 
@@ -23,7 +23,7 @@ public class TextItemConfiguration : IEntityTypeConfiguration<Models.TextItem>
     public void Configure(EntityTypeBuilder<Models.TextItem> builder)
     {
         // Table name
-        builder.ToTable("TextItems");
+        builder.ToTable("Textitems");
 
         // Primary key
         builder.HasKey(x => x.Id);
@@ -42,14 +42,14 @@ public class TextItemConfiguration : IEntityTypeConfiguration<Models.TextItem>
     }
 }
 
-public class TextListContextDesignFactory : IDesignTimeDbContextFactory<TextListContext>
+public class TextItemContextDesignFactory : IDesignTimeDbContextFactory<TextItemContext>
 {
-    public TextListContext CreateDbContext(string[] args)
+    public TextItemContext CreateDbContext(string[] args)
     =>
         new(
-            new DbContextOptionsBuilder<TextListContext>()
+            new DbContextOptionsBuilder<TextItemContext>()
                 .UseSqlServer(
-                    "Server=localhost;Database=RecAll;User Id=sa;Password=Password123;")
+                    "Server=.;Initial Catalog=RecAll.TextListDb;Integrated Security=true")
                 .Options
         );
 }

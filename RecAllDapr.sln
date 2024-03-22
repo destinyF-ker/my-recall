@@ -7,13 +7,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contrib", "Contrib", "{0C3F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Textitem.Api", "Contrib\Textitem.Api\Textitem.Api.csproj", "{72F53716-7D60-4604-A71F-FA4E5994FDA5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{2B9F5638-3560-4A21-954B-151BBBE30C8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{6E10EBB5-EFDF-4282-8A9D-DC347DC67F52}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\components\recall-secretstore.yaml = dapr\components\recall-secretstore.yaml
+		dapr\components\recall-secrets.json = dapr\components\recall-secrets.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{95794935-6CF8-43E7-A7D1-1A91DC7577FA}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\configuration\recall-configuration.yaml = dapr\configuration\recall-configuration.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -21,7 +31,12 @@ Global
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5} = {0C3F1673-9EB6-40E5-8CF6-4A0CEBA7094D}
+		{6E10EBB5-EFDF-4282-8A9D-DC347DC67F52} = {2B9F5638-3560-4A21-954B-151BBBE30C8A}
+		{95794935-6CF8-43E7-A7D1-1A91DC7577FA} = {2B9F5638-3560-4A21-954B-151BBBE30C8A}
 	EndGlobalSection
 EndGlobal

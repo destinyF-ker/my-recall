@@ -10,8 +10,8 @@ using RecAll.Contrib.TextItem.Api.Data;
 
 namespace RecAll.Contrib.TextItem.Api.Migrations
 {
-    [DbContext(typeof(TextListContext))]
-    partial class TextListContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TextItemContext))]
+    partial class TextItemContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

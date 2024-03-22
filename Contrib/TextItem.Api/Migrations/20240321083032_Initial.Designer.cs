@@ -11,7 +11,7 @@ using RecAll.Contrib.TextItem.Api.Data;
 
 namespace RecAll.Contrib.TextItem.Api.Migrations
 {
-    [DbContext(typeof(TextListContext))]
+    [DbContext(typeof(TextItemContext))]
     [Migration("20240321083032_Initial")]
     partial class Initial
     {
