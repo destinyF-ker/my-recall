@@ -16,8 +16,8 @@ services:
     build:
       context: .
       dockerfile: Contrib/TextItem.Api/Dockerfile
-    ports:
-      - 5163:5163
+    # ports:
+    #   - 5163:5163
 
   recall-textitemapi-dapr:
     image: daprio/daprd:1.9.4

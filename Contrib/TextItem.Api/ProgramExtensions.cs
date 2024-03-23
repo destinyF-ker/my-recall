@@ -3,13 +3,26 @@ using Dapr.Client;
 using RecAll.Contrib.TextItem.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Polly;
+using System.Security.Principal;
+using RecAll.Contrib.TextItem.Api.Service;
 namespace RecAll.Contrib.TextItem.Api;
 
 public static class ProgramExtensions
 {
     public static void AddCustomConfiguration(this WebApplicationBuilder builder)
     {
-        builder.Configuration.AddDaprSecretStore("recall-secretstore", new DaprClientBuilder().Build());
+        builder.Configuration.AddDaprSecretStore(
+            "recall-secretstore",
+            new DaprClientBuilder().Build());
+    }
+
+    public static void AddCustomSwagger(this WebApplicationBuilder builder) =>
+        builder.Services.AddSwaggerGen();
+
+    public static void UseCustomSwagger(this WebApplication app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
 
     // public static void AddCustomDatabase(this WebApplicationBuilder builder)
@@ -19,13 +32,17 @@ public static class ProgramExtensions
     //         p => p.UseSqlServer(builder.Configuration["ConnectionString:TextItemContext"])
     //     );
     // }
+    public static void AddCustomApplicationServices(this WebApplicationBuilder bulider)
+    {
+        bulider.Services.AddScoped<IIdentityService, MockIndentityService>();
+    }
+
     public static void AddCustomDatabase(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContext<TextItemContext>(p =>
             p.UseSqlServer(
                 builder.Configuration["ConnectionStrings:TextItemContext"]));
     }
-
 
     public static void ApplyDatabaseMigration(this WebApplication app)
     {

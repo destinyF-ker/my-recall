@@ -18,9 +18,10 @@ services:
   recall-textitemapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
+      # - ASPNETCORE_HTTP_PORTS=8080
     ports:
-      - "35210:8080"
+      - "5163:5163"
+      # - "35210:80"
       - "50001"
 
   recall-textitemapi-dapr:
@@ -30,7 +31,7 @@ services:
         "-app-id",
         "recall-textitemapi",
         "-app-port",
-        "80",
+        "5163",
         "-components-path",
         "/components",
         "-config",

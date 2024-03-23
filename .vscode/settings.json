@@ -1,3 +1,21 @@
 {
-  "rust-analyzer.checkOnSave": true
+  "rust-analyzer.checkOnSave": true,
+  "sqltools.connections": [
+    {
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 35433,
+      "driver": "MSSQL",
+      "group": "docker-dev",
+      "name": "RecAll.Api",
+      "username": "sa",
+      "password": "Pass@word",
+      "database": "RecAll.TextItemDb"
+    }
+  ]
 }
