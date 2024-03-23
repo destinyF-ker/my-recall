@@ -47,6 +47,13 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
+  recall-servicestatus:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_HTTP_PORTS=8080
+    ports:
+      - "35107:5231"
+
 volumes:
   recall-sqldata:
     external: false

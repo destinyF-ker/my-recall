@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RecAll.Contrib.TextItem.Api.Data;
-using RecAll.Contrib.TextItem.Api.Service;
-using RecAll.Contrib.TextItem.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using TheSalLab.GeneralReturnValues;
 using RecAll.Contrib.TextItem.Api.ViewModels;
-using System.Collections;
 using RecAll.Contrib.TextItem.Api.Commands;
 using RecAll.Contrib.TextItem.Api.Services;
 

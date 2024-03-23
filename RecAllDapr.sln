@@ -20,6 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configurat
 		dapr\configuration\recall-configuration.yaml = dapr\configuration\recall-configuration.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Api", "Infrastructure\Infrastructure.Api\Infrastructure.Api.csproj", "{D503383D-C6DF-492D-A45B-45844B675610}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStatus", "Infrastructure\ServiceStatus\ServiceStatus.csproj", "{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +36,14 @@ Global
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D503383D-C6DF-492D-A45B-45844B675610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D503383D-C6DF-492D-A45B-45844B675610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D503383D-C6DF-492D-A45B-45844B675610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D503383D-C6DF-492D-A45B-45844B675610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,5 +52,7 @@ Global
 		{72F53716-7D60-4604-A71F-FA4E5994FDA5} = {0C3F1673-9EB6-40E5-8CF6-4A0CEBA7094D}
 		{6E10EBB5-EFDF-4282-8A9D-DC347DC67F52} = {2B9F5638-3560-4A21-954B-151BBBE30C8A}
 		{95794935-6CF8-43E7-A7D1-1A91DC7577FA} = {2B9F5638-3560-4A21-954B-151BBBE30C8A}
+		{D503383D-C6DF-492D-A45B-45844B675610} = {5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}
+		{5A9D763A-1C8A-48BD-90BF-03C2EA9AD986} = {5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}
 	EndGlobalSection
 EndGlobal

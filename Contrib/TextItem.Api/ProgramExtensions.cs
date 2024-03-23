@@ -3,9 +3,12 @@ using Dapr.Client;
 using RecAll.Contrib.TextItem.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Polly;
-using System.Security.Principal;
-using RecAll.Contrib.TextItem.Api.Service;
 using Serilog;
+using RecAll.Contrib.TextItem.Api.Services;
+using Microsoft.AspNetCore.Mvc;
+using TheSalLab.GeneralReturnValues;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using RecAll.Infrastructure.Infrastructure.Api;
 namespace RecAll.Contrib.TextItem.Api;
 
 public static class ProgramExtensions
@@ -21,6 +24,14 @@ public static class ProgramExtensions
 
     public static void AddCustomSwagger(this WebApplicationBuilder builder) =>
         builder.Services.AddSwaggerGen();
+
+    // Copy can't pass the compiler check
+    public static void
+        AddCustomHealthChecks(this WebApplicationBuilder builder) =>
+            builder.Services.AddHealthChecks().AddCheck("self", () => HealthCheckResult.Healthy()) // 检查自己
+            .AddDapr()  // 检查Dapr
+            .AddSqlServer(builder.Configuration["ConnectionStrings:TextItemContext"]!,
+                name: "TextListDb-check", tags: new[] { "TextListDb" }); // 检查SQL Server
 
     public static void AddCustomSerilog(this WebApplicationBuilder builder)
     {
@@ -83,6 +94,22 @@ public static class ProgramExtensions
             Console.WriteLine(
                 "Exception {0} with message {1} detected during database migration (retry attempt {2})",
                exception.GetType().Name, exception.Message, retry);
+        });
+    }
+
+    // 模型验证, 把不符合要求的模型也转化为一个默认但是符合要求的形式
+    public static void AddInvalidModelStateResponseFactory(
+        this WebApplicationBuilder builder)
+    {
+        builder.Services.AddOptions().Configure<ApiBehaviorOptions>(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+                new OkObjectResult(ServiceResult
+                    .CreateInvalidParameterResult(
+                        new ValidationProblemDetails(context.ModelState).Errors
+                            .Select(p =>
+                                $"{p.Key}: {string.Join(" / ", p.Value)}"))
+                    .ToServiceResultViewModel());
         });
     }
 }

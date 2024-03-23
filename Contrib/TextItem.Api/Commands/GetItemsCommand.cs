@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RecAll.Contrib.TextItem.Api;
+namespace RecAll.Contrib.TextItem.Api.Commands;
 
 public class GetItemsCommand
 {

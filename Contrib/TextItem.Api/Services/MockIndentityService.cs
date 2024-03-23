@@ -1,4 +1,4 @@
-﻿namespace RecAll.Contrib.TextItem.Api.Service;
+﻿namespace RecAll.Contrib.TextItem.Api.Services;
 
 public class MockIndentityService : IIdentityService
 {
