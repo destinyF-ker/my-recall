@@ -2,7 +2,7 @@
 
 public class TextItemViewModel
 {
-    public int id { get; set; }
+    public int Id { get; set; }
 
     public int? ItemId { get; set; }
 

@@ -3,6 +3,7 @@ using RecAll.Contrib.TextItem.Api;
 var builder = WebApplication.CreateBuilder(args);
 builder.AddCustomConfiguration();
 builder.AddCustomDatabase();
+builder.AddCustomSerilog();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
