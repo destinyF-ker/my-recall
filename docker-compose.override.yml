@@ -6,6 +6,12 @@ services:
       - "35411:9411"
     # SideCar for TextItem.Api
 
+  recall-seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "35340:80"
+
   recall-sqldata:
     environment:
       - SA_PASSWORD=Pass@word

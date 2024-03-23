@@ -5,10 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Polly;
 using System.Security.Principal;
 using RecAll.Contrib.TextItem.Api.Service;
+using Serilog;
 namespace RecAll.Contrib.TextItem.Api;
 
 public static class ProgramExtensions
 {
+    public static readonly string AppName = typeof(ProgramExtensions).Namespace;
+
     public static void AddCustomConfiguration(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddDaprSecretStore(
@@ -19,11 +22,27 @@ public static class ProgramExtensions
     public static void AddCustomSwagger(this WebApplicationBuilder builder) =>
         builder.Services.AddSwaggerGen();
 
+    public static void AddCustomSerilog(this WebApplicationBuilder builder)
+    {
+        // seq服务器地址
+        var seqServerUrl = builder.Configuration["serilog:SeqServerUrl"];
+
+        Log.Logger = new LoggerConfiguration().ReadFrom
+            .Configuration(builder.Configuration)
+            .WriteTo.Console()
+            .WriteTo.Seq(seqServerUrl)
+            .Enrich.WithProperty("ApplicationName", AppName)
+            .CreateLogger();
+
+        builder.Host.UseSerilog();
+    }
+
     public static void UseCustomSwagger(this WebApplication app)
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
 
     // public static void AddCustomDatabase(this WebApplicationBuilder builder)
     // {

@@ -12,12 +12,15 @@ public class ItemController
 {
     private readonly IIdentityService _identityService;
     private readonly TextItemContext _textItemContext;
+    private readonly ILogger<ItemController> _logger;
 
     public ItemController(IIdentityService identityService,
-                            TextItemContext textItemContext)
+                            TextItemContext textItemContext,
+                            ILogger<ItemController> logger)
     {
         _identityService = identityService;
         _textItemContext = textItemContext;
+        _logger = logger;
     }
 
     [Route("create")]
@@ -25,6 +28,11 @@ public class ItemController
     public async Task<ActionResult<string>> CreateAsync(
            [FromBody] CreateTextItemCommand command)
     {
+        _logger.LogInformation(
+            "----- Handling command {CommandName} ({@Command})",
+            command.GetType().Name, command
+        );
+
         var textItem = new Models.TextItem
         {
             Content = command.Content,
@@ -34,6 +42,12 @@ public class ItemController
 
         var textItemEntity = _textItemContext.Add(textItem);
         await _textItemContext.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "----- Command {CommandName} handled",
+            command.GetType().Name
+        );
+
         return textItemEntity.Entity.Id.ToString();
     }
 
@@ -43,6 +57,11 @@ public class ItemController
         [FromBody] UpdateTextItemCommand command
     )
     {
+        _logger.LogInformation(
+            "----- Handling command {CommandName} ({@Command})",
+            command.GetType().Name, command
+        );
+
         var userIdentityGuid = _identityService.GetUserIdentityGuid();
 
         var textItem = await _textItemContext.TextItems.FirstOrDefaultAsync(p =>
@@ -52,11 +71,20 @@ public class ItemController
 
         if (textItem is null)
         {
+            _logger.LogWarning(
+                $"用户{userIdentityGuid}尝试查看已删除，不存在或不属于自己的TextItem {command.Id}"
+            );
+
             return new BadRequestResult();
         }
 
         textItem.Content = command.Content;
         await _textItemContext.SaveChangesAsync();
+
+        _logger.LogInformation(
+            "----- Command {CommandName} handled",
+            command.GetType().Name
+        );
 
         return new OkResult();
     }
@@ -73,6 +101,13 @@ public class ItemController
             !p.IsDeleted
         );
 
+        if (textItem is null)
+        {
+            _logger.LogWarning(
+                $"用户{userIdentityGuid}尝试查看已经删除，不存在或不属于自己的TextItem {id}"
+            );
+        }
+
         return textItem is null ? new BadRequestResult() : textItem;
     }
 
@@ -87,6 +122,13 @@ public class ItemController
             p.UserIdentityGuid == userIdentityGuid &&
             !p.IsDeleted
         );
+
+        if (textItem is null)
+        {
+            _logger.LogWarning(
+                $"用户{userIdentityGuid}尝试查看已经删除，不存在或不属于字节的TextItem, ItemId: {itemId}"
+            );
+        }
 
         return textItem is null ? new BadRequestResult() : textItem;
     }
@@ -113,6 +155,7 @@ public class ItemController
                 itemIds.Except(textItems.Select(p => p.ItemId.Value))
                     .Select(p => p.ToString()));
 
+            _logger.LogWarning($"用户{userIdentityGuid}尝试查看已经删除，不存在或不属于字节的TextItems: {missingIds}");
             return new BadRequestResult();
         }
 
