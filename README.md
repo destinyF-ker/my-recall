@@ -8,13 +8,29 @@
     <h3 align="center">一个功能丰富的错题本微服务</h3>
 </div>
 
+- [myRecAll](#myrecall)
+  - [写在前面](#写在前面)
+    - [使用 vscode](#使用-vscode)
+    - [叠甲](#叠甲)
+- [开始](#开始)
+  - [关于.NET 开发环境](#关于net-开发环境)
+  - [使用 vscode + docker CLI 完成微服务开发](#使用-vscode--docker-cli-完成微服务开发)
+    - [创建项目](#创建项目)
+      - [方案 1：使用 vscode 命令中心](#方案-1使用-vscode-命令中心)
+      - [方案 2：使用 dotnet CLI](#方案-2使用-dotnet-cli)
+      - [方案 3：使用 C# Dev Kit 提供的解决方案资源管理器](#方案-3使用-c-dev-kit-提供的解决方案资源管理器)
+    - [为项目添加 docker 支持](#为项目添加-docker-支持)
+  - [补充说明](#补充说明)
+
 ## 写在前面
 
-这是一个使用 ASP.NET core + docker 微服务实现的小玩具，微服务架构与设计模式课设，师承本仓库的另一位 contributor，可能最后也可以变成一个比较完善的商业软件？
+这是一个使用 ASP.NET core + docker 微服务实现的小玩具，微服务架构与设计模式课设，可能最后也可以变成一个比较完善的软件？
+
+感谢 Zhang, Yin 老师课上非常详细的解释和指导！
 
 ### 使用 vscode
 
-从配置到编码全程使用 vscode ，事实证明使用 vscode 也有不输于 visual sudio 或 Rider 的生产力(这点对于 mac 用户来说就非常重要了)。
+从配置到编码全程使用 vscode ，事实证明使用 vscode 也有不输于 visual sudio 或 Rider 的生产力(这点对于 mac 用户来说就非常重要了，我丐版 mac 8G 内存怎么顶得住 JetBrains 家族对内存的胡吃海喝啊)。
 
 <div align="center">
     <img src="https://s2.loli.net/2024/03/25/vHnQxTwY9IGAcOt.jpg"
@@ -71,6 +87,8 @@ Docker 插件里面 Dev Container 是必装的，用于给项目添加容器，�
 
 ### 创建项目
 
+#### 方案 1：使用 vscode 命令中心
+
 首先创建一个空文件夹，然后使用 dotnet CLI 在该文件夹之中创建一个新的解决方案：
 
 ```bash
@@ -110,7 +128,7 @@ mkdir Contrib
     <img src="https://s2.loli.net/2024/03/25/DbxTQE9euKrHPX7.png" width="500" alt="Not find"/>
 </div>
 
-该到指定项目文件夹路径的时候了，因为我们要将项目放到`Contrib`目录下，所以**选择其他目录**
+该到指定项目文件夹路径的时候了，因为我们要将项目放到`Contrib`目录下，所以在**选择其他目录**上按回车，并在你你操作系统的文件系统上（访达或文件资源管理器）选定 Contrib 目录
 
 <!-- ![](https://s2.loli.net/2024/03/25/HRbO2NwqryeBogZ.png) -->
 <div align="center">
@@ -125,6 +143,8 @@ mkdir Contrib
 </div>
 
 🤯🤯🤯，怎么回事！解决方案，一下就出现了两个！好吧，实际上上面的流程就仅仅适用于解决方案和项目同名的情况，可以非常方便地进行创建，现在看来我们要另某它法了。
+
+#### 方案 2：使用 dotnet CLI
 
 退回到这一步：
 
@@ -201,6 +221,36 @@ dotnet sln myRecAll.sln add ./Contrib/TextItem.Api/TextItem.Api.csproj
 
 现在我们就可以愉快地在项目之中构建代码了 😆
 
+#### 方案 3：使用 C# Dev Kit 提供的解决方案资源管理器
+
+回到我们刚刚创建一个空的解决方案的步骤：
+
+```bash
+./
+└── myRecAll.sln
+```
+
+此时在资源管理器之中右键`.sln`文件，点击打开解决方案：
+
+<!-- ![](https://s2.loli.net/2024/03/25/fsPLhTAJu6Qo4vx.png) -->
+<div align="center">
+    <img src="https://s2.loli.net/2024/03/25/fsPLhTAJu6Qo4vx.png" width="500" alt="Not find"/>
+</div>
+
+然后在解决方案之中点击右侧的**加号**➕，这里在截图的时候忘记把`Contrib`文件夹创建好了，在点之前记得创建以下 🥲
+
+<!-- ![](https://s2.loli.net/2024/03/25/QbU3JlLhXBznuS1.png) -->
+<div align="center">
+    <img src="https://s2.loli.net/2024/03/25/QbU3JlLhXBznuS1.png" width="500" alt="Not find"/>
+</div>
+
+接下来的操作和我们在方案 1 之中讲的差不多，然后就可以非常方便地得到一个和方案 2 之中一样正确配置的项目文件夹了：
+
+<!-- ![](https://s2.loli.net/2024/03/25/U7X6xSIYJie2gdl.png) -->
+<div align="center">
+    <img src="https://s2.loli.net/2024/03/25/U7X6xSIYJie2gdl.png" width="500" alt="Not find"/>
+</div>
+
 ### 为项目添加 docker 支持
 
 注意，这一部分的内容必须要依赖插件 Dev Containers 才能进行，没有安装的朋友现在立马去安装一个
@@ -257,3 +307,5 @@ dotnet sln myRecAll.sln add ./Contrib/TextItem.Api/TextItem.Api.csproj
 好，这样一个有 docker 支持的.NET 项目就配置完毕了。
 
 ## 补充说明
+
+TODO
