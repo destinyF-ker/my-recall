@@ -20,7 +20,14 @@
       - [方案 2：使用 dotnet CLI](#方案-2使用-dotnet-cli)
       - [方案 3：使用 C# Dev Kit 提供的解决方案资源管理器](#方案-3使用-c-dev-kit-提供的解决方案资源管理器)
     - [为项目添加 docker 支持](#为项目添加-docker-支持)
+    - [为项目添加 package 依赖](#为项目添加-package-依赖)
+      - [TextItem.Api:](#textitemapi)
+      - [Infrastructure.Api:](#infrastructureapi)
+      - [ServiceStatus](#servicestatus)
+      - [通过 dotnet CLI 使用 Nuget 来为项目添加依赖](#通过-dotnet-cli-使用-nuget-来为项目添加依赖)
   - [补充说明](#补充说明)
+    - [关于 docker 端口号](#关于-docker-端口号)
+    - [关于 docker 环境变量`ASPNETCORE_ENVIRONMENT`](#关于-docker-环境变量aspnetcore_environment)
 
 ## 写在前面
 
@@ -306,6 +313,127 @@ dotnet sln myRecAll.sln add ./Contrib/TextItem.Api/TextItem.Api.csproj
 
 好，这样一个有 docker 支持的.NET 项目就配置完毕了。
 
+### 为项目添加 package 依赖
+
+目前在本项目之中一共使用到了下面这几个包，可以在项目的`.csproj`文件之中找到：
+
+#### TextItem.Api:
+
+<center>
+
+| 名称                                    | 功能说明                  |
+| --------------------------------------- | ------------------------- |
+| Microsoft.EntityFrameworkCore           | 数据库访问框架            |
+| Microsoft.EntityFrameworkCore.Design    | EF Core 设计时支持        |
+| Microsoft.EntityFrameworkCore.Tools     | EF Core 工具              |
+| Microsoft.EntityFrameworkCore.SqlServer | SQL Server 数据库提供程序 |
+| AspNetCore.HealthChecks.SqlServer       | SQL Server 健康检查       |
+| AspNetCore.HealthChecks.UI.Client       | 健康检查 UI 客户端        |
+| Dapr.AspNetCore                         | Dapr 集成支持             |
+| Dapr.Extensions.Configuration           | Dapr 配置扩展             |
+| polly                                   | 弹性和瞬态故障处理库      |
+| Serilog.AspNetCore                      | 日志记录框架              |
+| Serilog.Sinks.Seq                       | Seq 日志记录器            |
+| Swashbuckle.AspNetCore                  | Swagger 文档生成器        |
+| TheSalLab.GeneralReturnValues           | 通用返回值类型            |
+
+</center>
+
+#### Infrastructure.Api:
+
+<center>
+
+| 名称                                          | 功能说明                             |
+| --------------------------------------------- | ------------------------------------ |
+| Dapr.Client                                   | Dapr 客户端库，用于与 Dapr 进行交互  |
+| Microsoft.AspNetCore.OpenApi                  | ASP.NET Core 的 OpenAPI/Swagger 支持 |
+| Microsoft.Extensions.Diagnostics.HealthChecks | ASP.NET Core 的健康检查支持          |
+| Swashbuckle.AspNetCore                        | ASP.NET Core 的 Swagger 文档生成器   |
+
+</center>
+
+#### ServiceStatus
+
+<center>
+
+| 名称                                        | 功能说明             |
+| ------------------------------------------- | -------------------- |
+| AspNetCore.HealthChecks.UI                  | 健康检查 UI          |
+| AspNetCore.HealthChecks.UI.InMemory.Storage | 健康检查 UI 内存存储 |
+| Microsoft.AspNetCore.OpenApi                | OpenAPI/Swagger 支持 |
+| Swashbuckle.AspNetCore                      | Swagger 文档生成器   |
+
+</center>
+
+#### 通过 dotnet CLI 使用 Nuget 来为项目添加依赖
+
+实际上就是下面这个命令，具体可以参考[官方文档](https://learn.microsoft.com/zh-cn/dotnet/core/tools/dotnet-add-package)：
+
+```bash
+$ dotnet add package xxx
+```
+
+**_注意！_**
+
+一定要`cd`到目标项目目录下再进行操作，或者在`add`和`package`之间添加项目的`.csproj`文件路径，不然 Nuget 找不到要操作的项目
+
+值得一提的是 vscode 还有 dotnet CLI 因为自动生成模板的原因，这些项目在创建时都会自动添加`Microsoft.AspNetCore.OpenApi`还有`Sashbuckle.AspNetCore`，Infrastructure.Api 还有 ServiceStatus 都是服务容器，没有对外提供接口的话应该把这两个 Swagger 依赖删掉，说不定还能减少镜像体积。
+
 ## 补充说明
 
-TODO
+### 关于 docker 端口号
+
+使用 container 的时候这个端口号的问题确实有点烦人，在这里解释一下：
+
+我们先来看看自动生成*Dockerfile*的开头内容：
+
+```Dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 5231
+
+ENV ASPNETCORE_URLS=http://+:5231
+```
+
+这里有两处指定了端口号，第一处是`EXPOSE`，第二处定义了一个环境变量`ASPNETCORE_URLS`那么哪处会真正起作用呢？答案是第二处，这个`EXPOSE`实际上就是一个约定，并没有实质上的作用：
+
+> `EXPOSE` 指令是声明容器运行时提供服务的端口，这只是一个声明，在容器运行时并不会因为这个声明应用就会开启这个端口的服务。在 Dockerfile 中写入这样的声明有两个好处，一个是帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；另一个用处则是在运行时使用随机端口映射时，也就是 `docker run -P` 时，会自动随机映射 `EXPOSE` 的端口。
+
+就算写了`EXPOSE`，那么在这个端口上到底有没有服务，那都是不知道的。
+
+而`ASPNETCORE_URLS`是 ASP.NET Core 应用程序的环境变量，它用于指定应用程序要监听的 URL 地址。在这种情况下， `http://+:5231` 表示 ASP.NET Core 应用程序将监听所有网络接口 (`+`) 上的端口 5231。
+
+也可以在`docker-compose.yml`文件之中进行指定：
+
+```yaml
+recall-textitemapi:
+  environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    # - ASPNETCORE_HTTP_PORTS=8080
+  ports:
+    - "5163:5163"
+    # - "35210:80"
+    - "50001"
+```
+
+因为我已经在 Dockerfile 之中注明了`ASPNETCORE_HTTP_PORTS`服务端口，在这里就不用再重复指定了
+
+### 关于 docker 环境变量`ASPNETCORE_ENVIRONMENT`
+
+还记得在`Program.cs`文件之中的这一段代码吗：
+
+```C#
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseCustomSwagger();
+    app.MapGet("/", () => Results.LocalRedirect("~/swagger"));
+}
+```
+
+`app.Environment.IsDevelopment()` 是一个 ASP.NET Core 中的方法，用于检查当前应用程序是否在开发环境中运行。
+
+在 ASP.NET Core 中，你可以通过设置环境变量 `ASPNETCORE_ENVIRONMENT` 来指定应用程序的运行环境。这个环境变量的值可以是 `"Development"`、`"Staging"`、`"Production"` 或者你自定义的任何值。
+
+这个值一定要在`Dockerfile`或者`docker-compose.yml`之中指定为`Development`！有些时候自动生成的配置文件并不会帮你指定这个环境变量，就会导致`if`过不去，进而导致**Swagger 页面无法打开**。
