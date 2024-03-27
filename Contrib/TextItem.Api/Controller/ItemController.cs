@@ -175,8 +175,8 @@ public class ItemController
     public async Task<ActionResult
                     <ServiceResultViewModel
                     <IEnumerable
-                    <TextItemViewModel>>>> GetItemsAsync(
-        GetItemsCommand command
+                    <TextItemViewModel>>>>
+                    GetItemsAsync(GetItemsCommand command
     )
     {
         var itemIds = command.Ids.ToList();
