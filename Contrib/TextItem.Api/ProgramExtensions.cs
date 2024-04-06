@@ -13,7 +13,7 @@ namespace RecAll.Contrib.TextItem.Api;
 
 public static class ProgramExtensions {
     public static readonly string AppName = typeof(ProgramExtensions).Namespace;
-    
+
     public static void AddCustomConfiguration(
         this WebApplicationBuilder builder) {
         builder.Configuration.AddDaprSecretStore("recall-secretstore",
@@ -38,12 +38,13 @@ public static class ProgramExtensions {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-    
+
     public static void
         AddCustomHealthChecks(this WebApplicationBuilder builder) =>
         builder.Services.AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy()).AddDapr()
-            .AddSqlServer(builder.Configuration["ConnectionStrings:TextItemContext"]!,
+            .AddSqlServer(
+                builder.Configuration["ConnectionStrings:TextItemContext"]!,
                 name: "TextListDb-check", tags: new[] { "TextListDb" });
 
 
@@ -77,17 +78,18 @@ public static class ProgramExtensions {
                     exception.GetType().Name, exception.Message, retry);
             });
     }
-    
+
     public static void AddInvalidModelStateResponseFactory(
         this WebApplicationBuilder builder) {
-        builder.Services.AddOptions().Configure<ApiBehaviorOptions>(options => {
-            options.InvalidModelStateResponseFactory = context =>
-                new OkObjectResult(ServiceResult
-                    .CreateInvalidParameterResult(
-                        new ValidationProblemDetails(context.ModelState).Errors
-                            .Select(p =>
-                                $"{p.Key}: {string.Join(" / ", p.Value)}"))
-                    .ToServiceResultViewModel());
-        });
+        builder.Services.AddOptions().PostConfigure<ApiBehaviorOptions>(
+            options => {
+                options.InvalidModelStateResponseFactory = context =>
+                    new OkObjectResult(ServiceResult
+                        .CreateInvalidParameterResult(
+                            new ValidationProblemDetails(context.ModelState)
+                                .Errors.Select(p =>
+                                    $"{p.Key}: {string.Join(" / ", p.Value)}"))
+                        .ToServiceResultViewModel());
+            });
     }
 }
