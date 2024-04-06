@@ -55,4 +55,3 @@ services:
 volumes:
   recall-sqldata:
     external: false
-    external: false
