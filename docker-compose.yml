@@ -3,9 +3,13 @@
 version: "3.4"
 
 services:
+  # Zipkin是一个开源的分布式跟踪系统，帮助收集服务之间的调用数据
+  # 用于监控和分析服务之间的调用关系，帮助开发者更好地理解他们的应用程序的行为和性能
   recall-zipkin:
     image: openzipkin/zipkin-slim:latest
 
+  # Seq是一个用于.NET引用程序的结构化日志服务器
+  # 用于手机存储和查询日志，帮助开发者更好地理解他们的应用程序的行为和性能
   recall-seq:
     image: datalust/seq:latest
     extra_hosts:
@@ -29,6 +33,20 @@ services:
     network_mode: "service:recall-textitemapi"
     depends_on:
       - recall-textitemapi
+
+  # 网关，用于固定用户请求的入口，在内部转发到经常变动的真正服务地址
+  recall-envoygateway:
+    image: envoyproxy/envoy:v1.11.1
+    # extra_hosts是一个列表，允许添加额外的主机名解析到容器的/etc/hosts文件中
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # 用于解析host.docker.internal
+
+  # envoy的sidecar，用于将envoygateway和textitemapi连接起来，不然envoygateway无法转发请求（进入dapr集群）
+  recall-envoygateway-dapr:
+    image: daprio/daprd:1.9.4
+    network_mode: "service:recall-envoygateway"
+    depends_on:
+      - recall-envoygateway
 
   recall-servicestatus:
     image: recall-servicestatus

@@ -8,7 +8,7 @@ services:
 
   recall-seq:
     environment:
-      - ACCEPT_EULA=Y
+      - ACCEPT_EULA=Y # End-User License Agreement(EULA) 最终用户许可协议
     ports:
       - "35340:80"
 
@@ -19,6 +19,7 @@ services:
     ports:
       - "35433:1433"
     volumes:
+      # 这里是一个名为recall-sqldata的卷，用于存储数据库文件
       - recall-sqldata:/var/opt/mssql
 
   recall-textitemapi:
@@ -47,6 +48,29 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
+  recall-envoygateway:
+    volumes:
+      - ./Infrastructure/envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "35191:80" # 访问网关的访问地址
+      - "35181:8001" # 访问envoy的管理地址，可以通过这个端口查看配置文件
+
+  recall-envoygateway-dapr:
+    command: [
+        "./daprd",
+        "-app-id",
+        "recall-envoygateway",
+        "-app-port",
+        "80",
+        "-components-path",
+        "/components",
+        # "-config",
+        # "/configuration/recall-configuration.yaml",
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      # - "./dapr/configuration/:/configuration" # 老师的代码里面没有加这一行到底是怎么跑起来的？
+
   recall-servicestatus:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -54,6 +78,8 @@ services:
     ports:
       - "35107:5231"
 
+# 声明一个名为recall-sqldata的卷
+# sqlserver的数据文件会存储在这个卷中
 volumes:
   recall-sqldata:
     external: false

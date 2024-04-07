@@ -1,6 +1,6 @@
-@Textitem.Api_HostAddress = http://localhost:5163
+@TextitemApi_HostAddress = http://localhost:5163
 
-GET {{Textitem.Api_HostAddress}}/weatherforecast/
+GET {{TextitemApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###

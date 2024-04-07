@@ -1,5 +1,3 @@
-using IdentityModel.OidcClient;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecksUI().AddInMemoryStorage();
