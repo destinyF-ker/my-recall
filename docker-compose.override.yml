@@ -48,6 +48,29 @@ services:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
 
+  recall-listapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5231:5231"
+
+  recall-listapi-dapr:
+    command:
+      [
+        "./daprd",
+        "-app-id",
+        "recall-listapi",
+        "-app-port",
+        "5231",
+        "-components-path",
+        "/components",
+        "-config",
+        "/configuration/recall-configuration.yaml",
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
   recall-envoygateway:
     volumes:
       - ./Infrastructure/envoy.yaml:/etc/envoy/envoy.yaml

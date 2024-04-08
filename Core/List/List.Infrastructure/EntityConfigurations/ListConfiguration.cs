@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using RecAll.Core.List.Domain.AggregateModels;
 
 namespace RecAll.Core.List.Infrastructure.EntityConfigurations;
 

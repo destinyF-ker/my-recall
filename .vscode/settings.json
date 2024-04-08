@@ -16,6 +16,22 @@
       "username": "sa",
       "password": "Pass@word",
       "database": "RecAll.TextItemDb"
+    },
+    {
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 35433,
+      "driver": "MSSQL",
+      "name": "RecAll.Api-2",
+      "group": "docker-dev",
+      "database": "RecAll.ListDb",
+      "username": "sa",
+      "password": "Pass@word"
     }
   ]
 }

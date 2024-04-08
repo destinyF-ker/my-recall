@@ -5,7 +5,6 @@
     在本项目之中提供了 Ddd 的基本元素（Entity、AggrerationRoot 等等）
   -->
 
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

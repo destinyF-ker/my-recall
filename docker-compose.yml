@@ -48,8 +48,21 @@ services:
     depends_on:
       - recall-envoygateway
 
+  # 健康检查服务，用于检查服务的健康状态（200还是其他）
   recall-servicestatus:
     image: recall-servicestatus
     build:
       context: .
       dockerfile: Infrastructure/ServiceStatus/Dockerfile
+
+  recall-listapi:
+    image: recall-listapi
+    build:
+      context: .
+      dockerfile: Core/List/List.Api/Dockerfile
+
+  recall-listapi-dapr:
+    image: daprio/daprd:1.9.4
+    network_mode: "service:recall-listapi"
+    depends_on:
+      - recall-listapi
