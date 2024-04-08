@@ -1,6 +1,6 @@
-﻿using RecAll.Infrastructure.Ddd.Domain.SeedWork;
+﻿// using RecAll.Infrastructure.Ddd.Domain.SeedWork;
 
-namespace RecAll.Infrastructure.Ddd.Domain;
+namespace RecAll.Infrastructure.Ddd.Domain.SeedWork;
 
 /// <summary>
 /// 在这里 Repository 是仓库的意思，是对数据库的操作的封装，是对数据库的操作的基本单位。

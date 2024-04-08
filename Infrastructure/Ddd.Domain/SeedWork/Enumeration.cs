@@ -4,7 +4,7 @@ namespace RecAll.Infrastructure.Ddd.Domain.SeedWork;
 
 /// <summary>
 /// 和高级语言类型系统之中自带的枚举类型概念不同，在这里指代的是不能成为 Entity 的对象。
-/// 没有生存周期，没有业务意义，只是一些常量的集合。
+/// 没有生存周期，没有业务意义，只是一些常量的集合，可以硬编码在内存之中，也可以存在数据库之中。
 /// </summary> <summary>
 /// 
 /// </summary>

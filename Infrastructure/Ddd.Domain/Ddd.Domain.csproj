@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- 
+    这个项目主管的是对于 DDD 的设计部分，关于实现部分请见 DDD.Infrastructure 
+    在本项目之中提供了 Ddd 的基本元素（Entity、AggrerationRoot 等等）
+  -->
+
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

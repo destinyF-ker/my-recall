@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--  
+    本项目负责 Ddd 的实现部分，设计部分请见 Ddd.Domain 
+    在 Ddd.Domain 之中提供了 Ddd 的基本元素（Entity、AggrerationRoot 等等）
+  -->
+
+  <!-- Ddd.Infrastructure 实际上是对 Ddd.Domain 的一个实现，所以在这里要引用 Ddd.Domain 项目 -->
+  <ItemGroup>
+    <ProjectReference Include="..\Ddd.Domain\Ddd.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>RecAll.Infrastructure.Ddd.Infrastructure</RootNamespace>
+    <AssemblyName>RecAll.Infrastructure.Ddd.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+</Project>

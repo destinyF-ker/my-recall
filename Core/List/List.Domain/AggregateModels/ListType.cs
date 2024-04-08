@@ -13,7 +13,8 @@ namespace RecAll.Core.List.Domain.AggregateModels;
 /// 这里我们定义了一个 ListType 类，用于定义这些类型。
 /// 这就是一个没有业务的、没有身份的枚举类。
 /// </summary> <summary>
-/// 
+/// List -> Set -> Item
+/// 在这个应用场景下 ListType 对应的就是哪一门课：高等数学、线性代数、概率论等等
 /// </summary>
 public class ListType : Enumeration
 {

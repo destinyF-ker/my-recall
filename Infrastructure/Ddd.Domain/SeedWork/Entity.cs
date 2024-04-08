@@ -6,6 +6,7 @@ namespace RecAll.Infrastructure.Ddd.Domain.SeedWork;
 /// <summary>
 /// Entity 是一个抽象类，是所有实体的基类，实体是领域模型的基本组成部分，是领域模型的核心。
 /// 由两个部分组成：id 和领域事件（可以有多个，代表自身发生了什么变化）。
+/// 有很多种情况：1.一个类是 Entity，也是 AggregateRoot；2.一个类是 Entity，但不是 AggregateRoot。
 /// </summary> <summary>
 /// 
 /// </summary>
