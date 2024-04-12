@@ -12,6 +12,7 @@ using RecAll.Core.List.Api.Infrastructure;
 using RecAll.Core.List.Api.Infrastructure.AutofacModules;
 using RecAll.Core.List.Api.Infrastructure.Filters;
 using RecAll.Core.List.Infrastructure;
+using RecAll.Infrastructure.IntegrationEventLog;
 using Serilog;
 using TheSalLab.GeneralReturnValues;
 
@@ -63,12 +64,28 @@ public static class ProgramExtensions {
             .AddCheck("self", () => HealthCheckResult.Healthy()).AddDapr()
             .AddSqlServer(
                 builder.Configuration["ConnectionStrings:ListContext"]!,
-                name: "ListDb-check", tags: new[] { "ListDb" }).AddUrlGroup(
+                name: "ListDb-check", tags: new[] {
+                    "ListDb"
+                }).AddUrlGroup(
                 new Uri(builder.Configuration["TextListHealthCheck"]),
-                "TextListHealthCheck", tags: new[] { "TextList" });
+                "TextListHealthCheck", tags: new[] {
+                    "TextList"
+                });
 
     public static void AddCustomDatabase(this WebApplicationBuilder builder) {
         builder.Services.AddDbContext<ListContext>(options => {
+            options.UseSqlServer(
+                builder.Configuration["ConnectionStrings:ListContext"],
+                sqlServerOptionsAction => {
+                    sqlServerOptionsAction.MigrationsAssembly(
+                        typeof(ProgramExtensions).GetTypeInfo().Assembly
+                            .GetName().Name);
+                    sqlServerOptionsAction.EnableRetryOnFailure(15,
+                        TimeSpan.FromSeconds(30), null);
+                });
+        });
+
+        builder.Services.AddDbContext<IntegrationEventLogContext>(options => {
             options.UseSqlServer(
                 builder.Configuration["ConnectionStrings:ListContext"],
                 sqlServerOptionsAction => {
@@ -128,6 +145,12 @@ public static class ProgramExtensions {
             listContext.Database.Migrate();
             new ListContextSeed().SeedAsync(listContext, listContextSeedLogger)
                 .Wait();
+        });
+
+        var integrationEventLogContext = scope.ServiceProvider
+            .GetRequiredService<IntegrationEventLogContext>();
+        retryPolicy.Execute(() => {
+            integrationEventLogContext.Database.Migrate();
         });
     }
 
