@@ -15,7 +15,7 @@ public interface IListRepository : IRepository<List>
 
     // ----- 可以发现需求的增删改查操作只有两个接口（新增和读取），但是实际上有四个操作 -----
 
-    // 修改操作 
+    // 修改操作 如何通过上面两个方法进行实现
     // public static async Task Update()
     // {
     //     IListRepository repository;

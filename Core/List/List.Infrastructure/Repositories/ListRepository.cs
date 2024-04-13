@@ -24,6 +24,17 @@ public class ListRepository : IListRepository
     }
 
     // ----- 实现了两个接口，完全委托给 DbContext -----
+
+    /// <summary>
+    /// 下面这个方法就是添加一个新的 List 时将会调用的函数</br>
+    /// 可以发现：通过调用 _context.Lists.Add(list) 来委托给 DbContext 实现添加一个 List
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns> <summary>
+    /// 
+    /// </summary>
+    /// <param name="list"></param>
+    /// <returns></returns>
     public Domain.AggregateModels.ListAggregate.List Add(
         Domain.AggregateModels.ListAggregate.List list) =>
         _context.Lists.Add(list).Entity;

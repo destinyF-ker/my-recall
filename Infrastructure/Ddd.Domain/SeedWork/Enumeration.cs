@@ -66,6 +66,7 @@ public abstract class Enumeration : IComparable
         throw new InvalidOperationException(
             $"'{value}' is not a valid {description} in {typeof(TEnumeration)}");
 
+    // 现在只有 1
     public static bool IsValidValue<TEnumeration>(int value)
         where TEnumeration : Enumeration =>
         GetAll<TEnumeration>().FirstOrDefault(p => p.Id == value) is not null;
