@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Storage;
 using RecAll.Core.List.Domain.AggregateModels;
+using RecAll.Core.List.Domain.AggregateModels.ItemAggregate;
 using RecAll.Core.List.Domain.AggregateModels.SetAggregate;
 using RecAll.Core.List.Infrastructure.EntityConfigurations;
 using RecAll.Infrastructure.Ddd.Domain.SeedWork;
@@ -19,6 +20,8 @@ public class ListContext : DbContext, IUnitOfWork
     public DbSet<Domain.AggregateModels.ListAggregate.List> Lists { get; set; }
 
     public DbSet<ListType> ListTypes { get; set; }
+
+    public DbSet<Item> Items { get; set; }
 
     // 注册 Set 实体
     public DbSet<Set> Sets { get; set; }
@@ -50,6 +53,8 @@ public class ListContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfiguration(new ListConfiguration());
         // 注册 Configuration
         modelBuilder.ApplyConfiguration(new SetConfiguration());
+        // 应用 Configuration
+        modelBuilder.ApplyConfiguration(new ItemConfiguration());
     }
 
     public async Task<bool> SaveEntitiesAsync(
