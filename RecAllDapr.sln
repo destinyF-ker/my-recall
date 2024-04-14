@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", 
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\recall-secretstore.yaml = dapr\components\recall-secretstore.yaml
 		dapr\components\recall-secrets.json = dapr\components\recall-secrets.json
+		dapr\components\recall-pubsub.yaml = dapr\components\recall-pubsub.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configuration", "configuration", "{95794935-6CF8-43E7-A7D1-1A91DC7577FA}"
@@ -42,6 +43,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List.Infrastructure", "Core\List\List.Infrastructure\List.Infrastructure.csproj", "{2DDD4148-214D-44B8-A9F4-07BC441D9F07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "List.Api", "Core\List\List.Api\List.Api.csproj", "{4D4A48EF-A2CA-4B15-BF04-47BA7C89427B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "Infrastructure\EventBus\EventBus.csproj", "{099B9B91-FD08-4C16-8271-3D72B5B878A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEventLog", "Infrastructure\IntegrationEventLog\IntegrationEventLog.csproj", "{F5F84171-D4A7-4013-B2CC-B15E43BEE378}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +86,14 @@ Global
 		{4D4A48EF-A2CA-4B15-BF04-47BA7C89427B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D4A48EF-A2CA-4B15-BF04-47BA7C89427B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D4A48EF-A2CA-4B15-BF04-47BA7C89427B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099B9B91-FD08-4C16-8271-3D72B5B878A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099B9B91-FD08-4C16-8271-3D72B5B878A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099B9B91-FD08-4C16-8271-3D72B5B878A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099B9B91-FD08-4C16-8271-3D72B5B878A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F84171-D4A7-4013-B2CC-B15E43BEE378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F84171-D4A7-4013-B2CC-B15E43BEE378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F84171-D4A7-4013-B2CC-B15E43BEE378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F84171-D4A7-4013-B2CC-B15E43BEE378}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +110,7 @@ Global
 		{AFAD822D-0923-430B-8B7D-256BEC95E1F8} = {5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}
 		{2DDD4148-214D-44B8-A9F4-07BC441D9F07} = {41419F2C-4770-4E8A-9B4F-1FF19BA3922E}
 		{4D4A48EF-A2CA-4B15-BF04-47BA7C89427B} = {41419F2C-4770-4E8A-9B4F-1FF19BA3922E}
+		{099B9B91-FD08-4C16-8271-3D72B5B878A2} = {5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}
+		{F5F84171-D4A7-4013-B2CC-B15E43BEE378} = {5CEC10A7-4474-4F3D-AF14-FD78CE2B4B32}
 	EndGlobalSection
 EndGlobal

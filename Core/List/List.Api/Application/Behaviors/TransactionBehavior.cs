@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using RecAll.Core.List.Api.Application.IntegrationEvents;
 using RecAll.Core.List.Infrastructure;
 using Serilog.Context;
 
@@ -28,14 +29,15 @@ public class TransactionBehavior<TRequest, TResponse>
     // 答案是有用：对于一个 DbContext，在一个 HTTP 请求之中是单例的
     private readonly ListContext _listContext;
 
-    // private readonly IListIntegrationEventService _listIntegrationEventService;
+    // 发布事件
+    private readonly IListIntegrationEventService _listIntegrationEventService;
 
     public TransactionBehavior(ListContext listContext,
-        // IListIntegrationEventService listIntegrationEventService,
+        IListIntegrationEventService listIntegrationEventService,
         ILogger<TransactionBehavior<TRequest, TResponse>> logger)
     {
         _listContext = listContext;
-        // _listIntegrationEventService = listIntegrationEventService;
+        _listIntegrationEventService = listIntegrationEventService;
         _logger = logger;
     }
 
@@ -75,11 +77,11 @@ public class TransactionBehavior<TRequest, TResponse>
 
                     // 提交事务
                     await _listContext.CommitTransactionAsync(transaction);
-                    // transactionId = transaction.TransactionId;
+                    transactionId = transaction.TransactionId;
                 }
 
-                // await _listIntegrationEventService.PublishEventsAsync(
-                //     transactionId);
+                await _listIntegrationEventService.PublishEventsAsync(
+                    transactionId);
             });
 
             return response;

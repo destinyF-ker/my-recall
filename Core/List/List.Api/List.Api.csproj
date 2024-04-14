@@ -34,13 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application/IntegrationEvents/" />
     <Folder Include="Infrastructure/Migrations/" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\List.Infrastructure\List.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\Infrastructure.Api\Infrastructure.Api.csproj" />
+    <ProjectReference Include="..\..\..\Infrastructure\IntegrationEventLog\IntegrationEventLog.csproj" />
   </ItemGroup>
 
 </Project>

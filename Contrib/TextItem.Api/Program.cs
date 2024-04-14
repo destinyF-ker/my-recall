@@ -19,7 +19,7 @@ builder.AddCustomApplicationServices();
 
 // Console.WriteLine(builder.Configuration["ConnectionStrings:TextItemContext"]);
 builder.Services.AddDaprClient();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddDapr();
 
 var app = builder.Build();
 
@@ -33,7 +33,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCloudEvents();
 app.MapControllers();
+app.MapSubscribeHandler();
 app.MapCustomHealthChecks(responseWriter: UIResponseWriter.WriteHealthCheckUIResponse);
 
 app.ApplyDatabaseMigration();

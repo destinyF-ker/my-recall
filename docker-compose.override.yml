@@ -101,6 +101,11 @@ services:
     ports:
       - "35107:5231"
 
+  recall-rabbitmq:
+    ports:
+      - "35672:5672"
+      - "35673:15672"
+
 # 声明一个名为recall-sqldata的卷
 # sqlserver的数据文件会存储在这个卷中
 volumes:

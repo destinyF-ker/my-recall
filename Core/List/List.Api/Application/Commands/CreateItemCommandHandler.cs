@@ -5,6 +5,7 @@ using RecAll.Core.List.Api.Application.Queries;
 using RecAll.Core.List.Api.Infrastructure.Services;
 using RecAll.Core.List.Domain.AggregateModels.ItemAggregate;
 using TheSalLab.GeneralReturnValues;
+using RecAll.Core.List.Api.Application.IntegrationEvents;
 
 namespace RecAll.Core.List.Api.Application.Commands;
 
@@ -16,13 +17,15 @@ public class CreateItemCommandHandler :
     private readonly IContribUrlService _contribUrlService;
     private readonly HttpClient _httpClient;
     private readonly IItemRepository _itemRepository;
+    private readonly IListIntegrationEventService _listIntegrationEventService;
 
     public CreateItemCommandHandler(
         ISetQueryService setQueryService,
         IIdentityService identityService,
         IItemRepository itemRepository,
         IContribUrlService contribUrlService,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        IListIntegrationEventService listIntegrationEventService)
     {
         _setQueryService = setQueryService ??
                            throw new ArgumentNullException(nameof(setQueryService));
@@ -32,6 +35,9 @@ public class CreateItemCommandHandler :
                           throw new ArgumentNullException(nameof(itemRepository));
         _contribUrlService = contribUrlService;
         _httpClient = httpClientFactory.CreateDefaultClient();
+        _listIntegrationEventService = listIntegrationEventService ??
+            throw new ArgumentNullException(
+                nameof(listIntegrationEventService));
     }
 
     /// <summary>
@@ -101,6 +107,13 @@ public class CreateItemCommandHandler :
         {
             return ServiceResult.CreateFailedResult();
         }
+
+        // 创建并保存集成事件
+        var itemIdAssignedIntegrationEvent =
+           new ItemIdAssignedIntegrationEvent(set.TypeId, contribResult.Result,
+               item.Id);
+        await _listIntegrationEventService.AddAndSaveEventAsync(
+            itemIdAssignedIntegrationEvent);
 
         return await _itemRepository.UnitOfWork.SaveEntitiesAsync(
             cancellationToken)

@@ -37,6 +37,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.Api\Infrastructure.Api.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\EventBus\EventBus.csproj" />
+    <ProjectReference Include="..\..\Core\List\List.Domain\List.Domain.csproj" />
   </ItemGroup>
 
   <!-- <ItemGroup>
