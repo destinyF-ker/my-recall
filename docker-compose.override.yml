@@ -23,6 +23,12 @@ services:
       - recall-sqldata:/var/opt/mssql
   
   
+  recall-rabbitmq:
+    ports:
+      - "35672:5672"
+      - "35673:15672"
+  
+  
   recall-envoygateway:
     volumes:
       - ./Infrastructure/envoy.yaml:/etc/envoy/envoy.yaml
@@ -87,6 +93,13 @@ services:
     volumes:
       - "./dapr/components/:/components"
       - "./dapr/configuration/:/configuration"
+        
+        
+  recall-identity.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "35105:80"
 
 
 volumes:
