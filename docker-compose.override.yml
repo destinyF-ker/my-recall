@@ -106,6 +106,30 @@ services:
       - "35672:5672"
       - "35673:15672"
 
+  # 身份验证服务
+  recall-identityapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "35105:80"
+
+  recall-identityapi-dapr:
+    command:
+      [
+        "./daprd",
+        "-app-id",
+        "recall-identityapi",
+        "-app-port",
+        "80",
+        "-components-path",
+        "/components",
+        "-config",
+        "/configuration/recall-configuration.yaml",
+      ]
+    volumes:
+      - "./dapr/components/:/components"
+      - "./dapr/configuration/:/configuration"
+
 # 声明一个名为recall-sqldata的卷
 # sqlserver的数据文件会存储在这个卷中
 volumes:

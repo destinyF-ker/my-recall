@@ -44,12 +44,12 @@
       "dockerBuild": {
         "tag": "myrecall:dev",
         "target": "base",
-        "dockerfile": "${workspaceFolder}/Contrib/TextItem.Api/Dockerfile",
+        "dockerfile": "${workspaceFolder}/Infrastructure/Identity.Api/Dockerfile",
         "context": "${workspaceFolder}",
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/Contrib/TextItem.Api/TextItem.Api.csproj"
+        "appProject": "${workspaceFolder}/Infrastructure/Identity.Api/Identity.Api.csproj"
       }
     },
     {
@@ -58,7 +58,7 @@
       "dependsOn": ["build"],
       "dockerBuild": {
         "tag": "myrecall:latest",
-        "dockerfile": "${workspaceFolder}/Contrib/TextItem.Api/Dockerfile",
+        "dockerfile": "${workspaceFolder}/Infrastructure/Identity.Api/Dockerfile",
         "context": "${workspaceFolder}",
         "platform": {
           "os": "linux",
@@ -67,7 +67,7 @@
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/Contrib/TextItem.Api/TextItem.Api.csproj"
+        "appProject": "${workspaceFolder}/Infrastructure/Identity.Api/Identity.Api.csproj"
       }
     },
     {
@@ -76,7 +76,7 @@
       "dependsOn": ["docker-build: debug"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/Contrib/TextItem.Api/TextItem.Api.csproj",
+        "appProject": "${workspaceFolder}/Infrastructure/Identity.Api/Identity.Api.csproj",
         "enableDebugging": true
       }
     },
@@ -86,7 +86,7 @@
       "dependsOn": ["docker-build: release"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/Contrib/TextItem.Api/TextItem.Api.csproj"
+        "appProject": "${workspaceFolder}/Infrastructure/Identity.Api/Identity.Api.csproj"
       }
     }
   ]

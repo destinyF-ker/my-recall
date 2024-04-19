@@ -11,8 +11,24 @@
       "server": "localhost",
       "port": 35433,
       "driver": "MSSQL",
+      "name": "RecAll.Api-2",
       "group": "docker-dev",
-      "name": "RecAll.Api",
+      "database": "RecAll.ListDb",
+      "username": "sa",
+      "password": "Pass@word"
+    },
+    {
+      "mssqlOptions": {
+        "appName": "SQLTools",
+        "useUTC": true,
+        "encrypt": true
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 35433,
+      "driver": "MSSQL",
+      "group": "docker-dev",
+      "name": "RecAll.Api-TextItem",
       "username": "sa",
       "password": "Pass@word",
       "database": "RecAll.TextItemDb"
@@ -27,9 +43,9 @@
       "server": "localhost",
       "port": 35433,
       "driver": "MSSQL",
-      "name": "RecAll.Api-2",
+      "name": "RecAll.Api-IdentityDb",
       "group": "docker-dev",
-      "database": "RecAll.ListDb",
+      "database": "RecAll.IdentityDb",
       "username": "sa",
       "password": "Pass@word"
     }
